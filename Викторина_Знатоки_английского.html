@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Викторина «Знатоки английского»</title>
+    <!-- Основной шрифт Arial с запасными вариантами -->
+    <style>
+    .slide img {
+    width: 50%;  /* Все картинки будут занимать половину ширины родителя */
+    height: auto;
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3e9f5;  /* очень светлый сиреневый фон */
+            color: #2d1b3c;        /* тёмно-сиреневый для текста */
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+
+        /* Слайд-контейнер */
+        .presentation {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .slide {
+            background: rgba(255, 245, 255, 0.8);  /* полупрозрачный с сиреневым отливом */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 2.5rem;
+            box-shadow: 0 20px 40px -10px rgba(110, 60, 130, 0.25), 0 0 0 1px rgba(230, 200, 255, 0.7) inset;
+            padding: 2rem 2.2rem;
+            transition: transform 0.2s ease;
+            border: 1px solid rgba(230, 190, 250, 0.7);
+        }
+
+        .slide:hover {
+            transform: scale(1.005);
+            box-shadow: 0 25px 45px -12px rgba(140, 70, 170, 0.35);
+        }
+
+        .slide-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+            border-bottom: 3px solid #d9b0e8;  /* сиреневая полоска */
+            padding-bottom: 0.6rem;
+        }
+
+        .slide-header h2 {
+            font-weight: 600;
+            font-size: 1.9rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #572b7a, #9f5cc0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .badge {
+            background: #8a4faf;    /* насыщенный сиреневый */
+            color: white;
+            font-weight: 600;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(120, 60, 140, 0.2);
+            border: 1px solid #e9c5ff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(250, 235, 255, 0.6);
+            border-radius: 1.2rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(150, 100, 170, 0.1);
+        }
+
+        th, td {
+            padding: 0.8rem 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid #dbb8ed;
+            font-weight: 500;
+        }
+
+        th {
+            background: #dac0ed;    /* светло-сиреневый */
+            color: #3d2352;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.4px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.8rem 1.2rem;
+        }
+
+        .word-item {
+            background: #eed5fc;     /* мягкий сиреневый */
+            border-radius: 60px;
+            padding: 0.4rem 1.2rem;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border: 1px solid #cb9fdf;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .fill-word {
+            background: white;
+            border-bottom: 3px dashed #a96dc5;
+            padding: 0.2rem 0.5rem;
+            font-weight: 600;
+            color: #491e6b;
+        }
+
+        .image-placeholder {
+            background: linear-gradient(145deg, #f2deff, #e2c4f5);
+            border-radius: 24px;
+            padding: 1.8rem 1.2rem;
+            text-align: center;
+            border: 2px dashed #b47bd6;
+            color: #632d88;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(4px);
+            margin: 0.5rem 0;
+            box-shadow: inset 0 2px 6px rgba(160, 100, 190, 0.1);
+        }
+
+        .image-placeholder p {
+            font-size: 1rem;
+        }
+
+        .image-placeholder i {
+            background: #d3afe9;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-style: normal;
+            color: #381d4b;
+        }
+
+        .two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .gap-2 { gap: 2rem; }
+        .mt-4 { margin-top: 1.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .font-bold { font-weight: 700; }
+
+        /* ответы / линии */
+        .fill-word {
+            background: white;
+            border-radius: 40px;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid #cb9fdf;
+            display: inline-block;
+            margin: 0.25rem 0;
+            color: #3f2158;
+        }
+
+        .quiz-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            align-items: baseline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px dotted #c9a7e0;
+            margin: 1.8rem 0 0.8rem;
+        }
+        .small-note {
+            color: #7a4f99;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+
+        <!-- Заголовок презентации (сиреневый градиент) -->
+        <div class="slide" style="background: linear-gradient(135deg, #682c8a, #ac6bcb); color: white;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1 style="font-size: 3.2rem; font-weight: 700; letter-spacing: -0.02em; color: white; -webkit-text-fill-color: white;">✶ Знатоки <br>английского</h1>
+                <div style="background: #ffffff30; border-radius: 60px; padding: 1rem 2.5rem; border: 2px solid #ffe5ff;">
+                    <span style="font-weight: 600; font-size: 1.8rem;">викторина</span>
+                </div>
+            </div>
+            <p style="font-size: 1.2rem; margin-top: 1rem; opacity: 0.9;">5 класс</p>
+        </div>
+
+        <!-- Задание 1 -->
+        <div class="slide">
+            <div class="slide-header"><span class="badge">❶</span> <h2>В следующих словах, обозначающих названия животных  пропущены гласные буквы. Восстановите их</h2></div>
+            <p class="small-note">ВПИШИТЕ В ТАБЛИЦУ ПОЛНОЕ  СЛОВО.</p>
+            <div class="two-cols gap-2">
+                <div>
+                    <table>
+                        <tr><td class="word-item">LN</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">MNK</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">GRFF</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">RHN</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">CRCDL</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">DLPHN</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">TGR</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">LPHNT</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">DCK</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">SNK</td><td class="fill-word">…………</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <table>
+                        <tr><td class="word-item">BRD</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">DG</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">LPRD</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">CML</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">RBBT</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">TGR</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">KNGR</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">CT</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">PRRT</td><td class="fill-word">…………</td></tr>
+                        <tr><td class="word-item">PG</td><td class="fill-word">…………</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Задание 2 Логика -->
+<div class="slide">
+    <div class="slide-header"><span class="badge">❷</span> <h2>Дополните логические утверждения</h2></div>
+    <p class="small-note"><strong>Пример.</strong> «Sun» так относится к «Moon», как «Day» относится к «Night» (Солнце - луна, день – ночь).</p>
+    <div class="quiz-row" style="flex-direction: column;">
+        <div style="flex:1">
+            <p> «Postman» так относится к «Post-office», как «Nurse» относится к <span class="fill-word">…………………………</span></p>
+            <p> «June» так относится к «Summer», как «September» относится к <span class="fill-word">…………………………</span></p>
+            <p> «Paris» так относится к «France», как «London» относится к <span class="fill-word">…………………………</span></p>
+            <p> «One» так относится к «the first», как «Two» относится к <span class="fill-word">…………………………</span></p>
+            <p> «Orange» так относится к «Fruit», как «Carrot» относится к <span class="fill-word">…………………………</span></p>
+            <p> «Africa» так относится к «Hot», как «Antarctica» относится  <span class="fill-word">…………………………</span></p>
+            <p> «Cry» так относится к «Sad», как «Laugh» относится к <span class="fill-word">…………………………</span></p>
+            <p> «Russia» так относится к «President», как «Great Britain» относится к <span class="fill-word">…………………………</span></p>
+            <p> «Chair» так относится к «Sit», как «Bed» относится к <span class="fill-word">…………………………</span></p>
+            <p> «Morning» так относится к «Breakfast», как «Evening» относится к <span class="fill-word">…………………………</span></p>
+            <p> «Song» так относится к «Sing», как «Book» относится к <span class="fill-word">…………………………</span></p>
+            <p> «Car» так относится к «Drive», как «Bicycle» относится к <span class="fill-word">…………………………</span></p>
+        </div>
+    </div>
+</div>
+
+      <!-- Задание 3 Зеркальные часы + картинки -->
+<div class="slide">
+    <div class="slide-header"><span class="badge">❸</span> <h2>Напиши по-английски, какое время показывают часы</h2></div>
+    
+    <!-- ВСТАВЛЯЕМ ОБЩУЮ КАРТИНКУ -->
+    <div class="image-placeholder">
+        <img src="Pictures/pic_clocks.png" alt="Clocks showing different times" style="max-width: 100%; height: auto; border-radius: 12px;">
+    </div>
+    
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem 3rem; margin-top: 1.5rem;">
+        <span class="fill-word">Часы 1: ………… o’clock</span>
+        <span class="fill-word">Часы 2: ………… o’clock</span>
+        <span class="fill-word">Часы 3: ………… o’clock</span>
+        <span class="fill-word">Часы 4: ………… o’clock</span>
+    </div>
+</div>
+
+        <!-- Задание 4 Family -->
+        <div class="slide">
+            <div class="slide-header"><span class="badge">❹</span> <h2>Решите задачи про родственные связи. Подпишите слово</h2></div>
+            <table style="max-width: 600px;">
+                <tr><td>My father’s wife is my</td><td class="fill-word">……………………</td></tr>
+                <tr><td>My sister is my parents’</td><td class="fill-word">……………………</td></tr>
+                <tr><td>My sister’s son is my</td><td class="fill-word">……………………</td></tr>
+                <tr><td>My mother’s father is my</td><td class="fill-word">……………………</td></tr>
+                <tr><td>My daughter is my sister’s</td><td class="fill-word">……………………</td></tr>
+            </table>
+        </div>
+
+        <!-- Задание 5 профессии -->
+        <div class="slide">
+            <div class="slide-header"><span class="badge">❺</span> <h2>Соотнесите профессии и глаголы-действия</h2></div>
+            <div class="two-cols">
+                <table>
+                    <tr><th>Профессия</th><th>действие</th></tr>
+                    <tr><td>1. A policeman … people.</td><td class="word-item">a) makes</td></tr>
+                    <tr><td>2. A baker … bread.</td><td class="word-item">b) helps</td></tr>
+                    <tr><td>3. A gardener … flowers.</td><td class="word-item">c) waters</td></tr>
+                    <tr><td>4. A taxi driver … taxis.</td><td class="word-item">d) Drives</td></tr>
+                    <tr><td>5. A pilot …</td><td class="word-item">e) Flies</td></tr>
+                </table>
+                <div style="background: #eed5fa; border-radius: 2rem; padding: 1.5rem;">
+                    <p class="font-bold">✏️ напиши соответствия:</p>
+                    <p>1 – ___ , 2 – ___ , 3 – ___ , 4 – ___ , 5 – ___ .</p>
+                </div>
+            </div>
+        </div>
+
+      <div class="slide">
+    <div class="slide-header"><span class="badge">❻</span> <h2>Подберите верный перевод для этих предметов одежды</h2></div>
+    <div class="two-cols gap-2">
+        <div>
+            <img src="Pictures/pic_jacket.png" alt="Jacket" style="max-width: 100%; height: auto;">
+            <p>a) a coat; b) a jacket; c) a jumper.</p>
+            <p class="fill-word">твой выбор: ________</p>
+        </div>
+        <div>
+            <img src="Pictures/pic_jeans.png" alt="Jeans" style="max-width: 100%; height: auto;">
+            <p>a) shorts; b) leggings; c) jeans.</p>
+            <p class="fill-word">твой выбор: ________</p>
+        </div>
+    </div>
+    <div class="two-cols gap-2 mt-4">
+        <div>
+            <img src="Pictures/pic_skirt.png" alt="Skirt" style="max-width: 100%; height: auto;">
+            <p>a) a shirt; b) a skirt; c) a dress.</p>
+            <p class="fill-word">твой выбор: ________</p>
+        </div>
+        <div>
+            <img src="Pictures/pic_socks.png" alt="Socks" style="max-width: 100%; height: auto;">
+            <p>a) pants; b) stockings; c) socks.</p>
+            <p class="fill-word">твой выбор: ________</p>
+        </div>
+    </div>
+</div>
+
+        <!-- Задание 7 загадки -->
+        <div class="slide">
+            <div class="slide-header"><span class="badge">❼</span> <h2>Отгадайте загадки</h2></div>
+            <p>1) What male accessory looks like a butterfly or a snake? <span class="fill-word">…………</span></p>
+            <p>2) What object can protect you both from the sun and the rain? <span class="fill-word">…………</span></p>
+            <p>3) You wear them to keep your fingers and palms warm. <span class="fill-word">…………</span></p>
+            <p>4) What do Mexicans call “sombrero”? <span class="fill-word">…………</span></p>
+        </div>
+
+        <!-- Задание 8 лишнее слово -->
+        <div class="slide">
+            <div class="slide-header"><span class="badge">❽</span> <h2>Вычеркни лишнее слово</h2></div>
+            <div class="word-grid" style="grid-template-columns: 1fr;">
+                <div>1) January, May, February, December → <span class="fill-word">…………</span></div>
+                <div>2) September, October, Winter, November → <span class="fill-word">…………</span></div>
+                <div>3) rain, November, snow, wind → <span class="fill-word">…………</span></div>
+                <div>4) March, June, July, August → <span class="fill-word">…………</span></div>
+                <div>5) winter, nice, summer, autumn → <span class="fill-word">…………</span></div>
+            </div>
+        </div>
+
+        <!-- Задание 9 вопросы -->
+        <div class="slide">
+            <div class="slide-header"><span class="badge">❾</span> <h2>Ответьте на вопросы</h2></div>
+            <p>What is the first day in English calendar? <span class="fill-word">…………</span></p>
+            <p>What is the capital of Great Britain? <span class="fill-word">…………</span></p>
+            <p>When is Christmas celebrated? <span class="fill-word">…………</span></p>
+            <p>What holiday has a symbol as the pumpkin? <span class="fill-word">…………</span></p>
+            <p>Who is the president in the USA now? <span class="fill-word">…………</span></p>
+        </div>
+
+        <!-- Задание 10 допиши слово -->
+        <div class="slide">
+            <div class="slide-header"><span class="badge">❿</span> <h2>Дополните каждую строчку словом, подходящим по смыслу</h2></div>
+            <p>Spring, summer, autumn, w… ➔ <span class="fill-word">…………</span></p>
+            <p>Grandmother, grandfather, mother, f… ➔ <span class="fill-word">…………</span></p>
+            <p>Baseball, football, basketball, t… ➔ <span class="fill-word">…………</span></p>
+            <p>September, October, November, D… ➔ <span class="fill-word">…………</span></p>
+            <p>Thursday, Friday, Saturday, S… ➔ <span class="fill-word">…………</span></p>
+            <p>Cheese, ice-cream, butter, m… ➔ <span class="fill-word">…………</span></p>
+        </div>
+
+        <!-- Задание 11 анаграммы (переставить буквы) -->
+        <div class="slide">
+            <div class="slide-header"><span class="badge">⓫</span> <h2>Переставьте буквы в каждом слове так, чтобы получилось слово, подходящее по смыслу</h2></div>
+            <div class="two-cols" style="grid-template-columns: 1fr;">
+                <div>
+                    <p>ABELT (You eat at it) → <span class="fill-word">…………</span></p>
+                    <p>ACHIR (You sit on it) → <span class="fill-word">…………</span></p>
+                    <p>ORCOEK (You cook on it) → <span class="fill-word">…………</span></p>
+                    <p>ALMP (switch on when dark) → <span class="fill-word">…………</span></p>
+                    <p>DERMOOB (room where sleep) → <span class="fill-word">…………</span></p>
+                    <p>ABHT (hot or cold?) → <span class="fill-word">…………</span></p>
+                    <p>CEHIKNT (cook dinner) → <span class="fill-word">…………</span></p>
+                    <p>ADEGNR (flowers & veg) → <span class="fill-word">…………</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Задание 12 загадки (последнее) -->
+        <div class="slide">
+            <div class="slide-header"><span class="badge">⓬</span> <h2>Ответьте на загадки</h2></div>
+            <div class="two-cols" style="grid-template-columns: 1fr;">
+                <div>
+                    <p>I have four legs, but I can’t walk. → <span class="fill-word">…………</span></p>
+                    <p>I’m tall and green, I’m in the garden. → <span class="fill-word">…………</span></p>
+                    <p>It doesn’t have legs, but it goes. → <span class="fill-word">…………</span></p>
+                    <p>It doesn’t have legs, but it jumps. → <span class="fill-word">…………</span></p>
+                    <p>Two brothers, but they don’t see each other. → <span class="fill-word">…………</span></p>
+                    <p>It is white and cold and sweet. → <span class="fill-word">…………</span></p>
+                    <p>It is not a man, but teaches us. → <span class="fill-word">…………</span></p>
+                    <p>It gives milk, likes to moor. → <span class="fill-word">…………</span></p>
+                    <p>Open me up to stay dry. → <span class="fill-word">…………</span></p>
+                    <p>Tick tock, ring ring to wake. → <span class="fill-word">…………</span></p>
+                    <p>Pretty, nice smell, in garden. → <span class="fill-word">…………</span></p>
+                    <p>Yellow, from milk, with bread. → <span class="fill-word">…………</span></p>
+                    <p>White when dirty, black when clean? → <span class="fill-word">…………</span></p>
+                    <p>What runs but never walks? → <span class="fill-word">…………</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Финальный слайд -->
+        <div class="slide" style="background: #dbb5f0; text-align: center;">
+            <p style="font-size: 2.2rem; font-weight: 600;">✨ good luck! ✨</p>
+        </div>
+    </div>
+</body>
+</html>
